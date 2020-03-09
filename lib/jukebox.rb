@@ -1,13 +1,3 @@
-# Add your code here
-# def say_hello(name)
-#   "Hi #{name}!"
-# end
- 
-# puts "Enter your name:"
-# users_name = gets.strip
- 
-# puts say_hello(users_name)
-
 songs = [
   "Phoenix - 1901",
   "Tokyo Police Club - Wait Up",
@@ -20,64 +10,59 @@ songs = [
   "Amos Lee - Keep It Loose, Keep It Tight"
 ]
 
-def help()
+# def say_hello(name)
+#   "Hi #{name}!"
+# end
+#
+# puts "Enter your name:"
+# user_name = gets.strip
+#
+# puts say_hello(user_name)
+
+def help
   puts "I accept the following commands:"
   puts "- help : displays this help message"
   puts "- list : displays a list of songs you can play"
   puts "- play : lets you choose a song to play"
   puts "- exit : exits this program"
-end
+ end
 
-def list(my_songs)
- my_songs.each { |song, location|
-    puts song
-    }
-end
+ def list(songs)
+   songs.each.with_index do |song, i|
+     puts "#{i + 1}. #{song}"
+   end
+ end
 
-def play(my_songs)
- puts "Please enter a song name:"
-  user_response = gets.chomp
-  my_songs.each { |song, location|
-    if user_response == song
-      system 'open ' + location
-    end
-      }
-  if user_response == "list"
-    list(my_songs)
-    play(my_songs)
-  else
-    puts "Invalid input, please try again:"
-    play(my_songs)
-  end
-end
+ def play(songs)
+   puts "Please enter a song name or number:"
+   song_to_play = gets.chomp
+   if(1..9).to_a.include?(song_to_play.to_i)
+     puts "Playing #{songs[song_to_play.to_i - 1]}"
+   elsif songs.include?(song_to_play)
+     puts "Playing #{song_to_play}"
+   else
+     puts "Invalid input, please try again"
+   end
+ end
 
-def exit_jukebox()
-  puts "Goodbye"
-end
+ def exit_jukebox
+   puts "Goodbye"
+ end
 
-def run(my_songs)
-help
-  puts "Please enter a command:"
-  user_response = gets.chomp
-  while user_response != "exit"
-    case user_response
-      when "help"
-        help
-        puts "Please enter a command:"
-        user_response = gets.chomp
-      when "list"
-        list(my_songs)
-        puts "Please enter a command:"
-        user_response = gets.chomp
-      when "play"
-        play(my_songs)
-        puts "Please enter a command:"
-        user_response = gets.chomp
-      when "exit"
-        exit_jukebox
-      else
-        puts "Invalid input, please try again:"
-        user_response = gets.chomp
-      end
-    end
-end
+ def run(songs)
+   loop do
+     puts "Please enter a command:"
+     command = gets.chomp
+     case command
+     when 'help'
+       help
+     when 'list'
+       list(songs)
+     when 'play'
+       play(songs)
+     when 'exit'
+       exit_jukebox
+       break
+     end
+   end
+ end
